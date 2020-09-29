@@ -1,0 +1,27 @@
+﻿<!-- Dashboard -->
+<div class="row">
+    <div class="col-md-4 form-group">
+        <a class="btn btn-primary btn-block"
+            asp-controller="Home" asp-action="Record">
+            New Record(s)
+        </a>
+    </div>
+    <div class="col-md-4 form-group">
+        <a class="btn btn-success btn-block" 
+            asp-controller="Home" asp-action="ViewRecords">
+            View Current Record(s)
+        </a>
+    </div>
+    <div class="col-md-4 form-group">
+        <a class="btn btn-secondary btn-block"
+            asp-controller="Home" asp-action="ViewArchives">
+            Archive(s)
+        </a>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col-md-12">
+        <div id="calendar"></div>
+    </div>
+</div>

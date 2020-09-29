@@ -1,0 +1,11 @@
+﻿.fc-header-left {
+	width: 50% !important;
+}
+
+.fc-header-right {
+	width: 50% !important;
+}
+
+table.fc-header {
+	background-color: #0094ff !important;
+}

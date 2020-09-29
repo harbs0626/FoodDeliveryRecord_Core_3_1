@@ -1,0 +1,54 @@
+﻿@model RecordReportViewModel
+
+@if (Model == null)
+{
+    <div class="alert alert-warning">
+        <b>Note:</b>&nbsp;No record(s) found.
+    </div>
+}
+else
+{
+    @*<div class="alert alert-info">
+        <b>Note:</b>&nbsp;@Model.Receivers.Count() record(s) found. 
+    </div>*@
+
+    <table class="table table-responsive table-bordered">
+        <thead>
+            <tr>
+                <td>
+                    <input type="checkbox" />
+                </td>
+                <td>Unit Name</td>
+                <td>Unit Number</td>
+                <td>Receiver</td>
+                <td>Vendor</td>
+                <td>Day</td>
+                <td>Delivery Date</td>
+                <td>Delivery Time</td>
+                <td style="width:300px;">Action(s)</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.Receivers)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>@r.UnitName</td>
+                    <td>@r.UnitNumber</td>
+                    <td>@r.FirstName @r.LastName</td>
+                    <td>@r.Vendor</td>
+                    <td>@r.Day</td>
+                    <td>@r.DeliveryDate</td>
+                    <td>@r.DeliveryTime</td>
+                    <td class="align-middle" align="center">
+                        <button class="btn btn-info"><i class="fa fa-eye"></i>&nbsp;View</button>
+                        <button class="btn btn-secondary"><i class="fa fa-pen-alt"></i>&nbsp;Edit</button>
+                        <button class="btn btn-danger"><i class="fa fa-exclamation-triangle"></i>&nbsp;Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

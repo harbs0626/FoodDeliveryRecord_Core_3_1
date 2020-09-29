@@ -1,0 +1,59 @@
+﻿@model RecordViewModel
+
+<form class="row" asp-action="Record" method="post">
+    <input type="hidden" asp-for="Receiver.Id" />
+    <input type="hidden" asp-for="FoodCondition.ReceiverId" />
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <label asp-for="Receiver.UnitName">Unit Name:</label>
+                <input class="form-control" type="text" asp-for="Receiver.UnitName" />
+            </div>
+            <div class="col-md-6 form-group">
+                <label asp-for="Receiver.UnitNumber">Unit Number:</label>
+                <input class="form-control" type="text" asp-for="Receiver.UnitNumber" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <label asp-for="Receiver.FirstName">First Name:</label>
+                <input class="form-control" type="text" asp-for="Receiver.FirstName" />
+            </div>
+            <div class="col-md-6 form-group">
+                <label asp-for="Receiver.LastName">Last Name:</label>
+                <input class="form-control" type="text" asp-for="Receiver.LastName" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label asp-for="Receiver.Vendor">Vendor:</label>
+                <input class="form-control" type="text" asp-for="Receiver.Vendor" />
+            </div>
+            <div class="col-md-2 form-group">
+                <label asp-for="Receiver.Day">Day:</label>
+                <input class="form-control" type="text" asp-for="Receiver.Day" />
+            </div>
+            <div class="col-md-2 form-group">
+                <label asp-for="Receiver.DeliveryDate">Delivery Date:</label>
+                <input class="form-control" type="text" asp-for="Receiver.DeliveryDate" />
+            </div>
+            <div class="col-md-2 form-group">
+                <label asp-for="Receiver.DeliveryTime">Delivery Time:</label>
+                <input class="form-control" type="text" asp-for="Receiver.DeliveryTime" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <button class="btn btn-primary btn-block" type="submit">Add Record</button>
+            </div>
+            <div class="col-md-6 form-group">
+                <button class="btn btn-secondary btn-block" type="button">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</form>
