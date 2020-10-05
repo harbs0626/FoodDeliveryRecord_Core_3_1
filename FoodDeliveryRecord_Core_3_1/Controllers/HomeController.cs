@@ -40,13 +40,24 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
             if (_recordId == 0)
             {
                 ViewBag.Title = "New Record";
-                return View("Record", new RecordViewModel());
+
+                RecordViewModel recordViewModel = new RecordViewModel();
+                recordViewModel.Receiver = new Receiver();
+                recordViewModel.Receiver.RecordStatus = "New";
+                recordViewModel.Receiver.Day = DateTime.Now.DayOfWeek.ToString();
+                recordViewModel.Receiver.DeliveryDate = DateTime.Now.Date;
+
+                return View("Record", recordViewModel);
             }
             else
             {
                 ViewBag.Title = "Edit Record";
-                return View("Record", this._recordRepository.Receivers
-                    .FirstOrDefault(r => r.Id == _recordId));
+
+                RecordViewModel recordViewModel = new RecordViewModel();
+                recordViewModel.Receiver = this._recordRepository.Receivers
+                    .FirstOrDefault(r => r.Id == _recordId);
+
+                return View("Record", recordViewModel);
             }
         }
 
@@ -55,11 +66,15 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
         {
             if (ModelState.IsValid)
             {
-                string _workflowStatus = "New";
+                //string _workflowStatus = "New";
+                //_recordViewModel.Receiver.RecordStatus = _workflowStatus;
 
-                this._recordRepository.SaveRecord(_recordViewModel, _workflowStatus);
+                this._recordRepository.SaveRecord(_recordViewModel);
 
                 Debug.WriteLine("Done");
+
+                TempData["SuccessResult"] = 
+                    $"Successfully recorded {_recordViewModel.Receiver.RecordStatus} data.";
 
                 return RedirectToAction("ViewRecords");
             }

@@ -14,7 +14,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
 
         //IQueryable<Signature> Signatures { get; set; }
 
-        void SaveRecord(RecordViewModel _recordFormViewModel, string _recordStatus);
+        void SaveRecord(RecordViewModel _recordFormViewModel);
 
         void DeleteRecord(RecordViewModel _recordViewModel);
 

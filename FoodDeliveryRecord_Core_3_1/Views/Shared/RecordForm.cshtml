@@ -1,18 +1,22 @@
 ﻿@model RecordViewModel
 
 <form class="row" asp-action="Record" method="post">
-    <input type="hidden" asp-for="Receiver.Id" />
-    <input type="hidden" asp-for="FoodCondition.ReceiverId" />
+    <input type="hidden" asp-for="Receiver.Id" value="0" />
+    @*<input type="hidden" asp-for="FoodCondition.ReceiverId" />*@
 
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
                 <label asp-for="Receiver.UnitName">Unit Name:</label>
                 <input class="form-control" type="text" asp-for="Receiver.UnitName" />
             </div>
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
                 <label asp-for="Receiver.UnitNumber">Unit Number:</label>
                 <input class="form-control" type="text" asp-for="Receiver.UnitNumber" />
+            </div>
+            <div class="col-md-4 form-group">
+                <label asp-for="Receiver.RecordStatus">Status:</label>
+                <input class="form-control" type="text" asp-for="Receiver.RecordStatus" readonly="readonly" />
             </div>
         </div>
 
@@ -27,22 +31,28 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-2 form-group">
+        <div class="row" style="margin-bottom:20px">
+            <div class="col-md-3 form-group">
                 <label asp-for="Receiver.Vendor">Vendor:</label>
                 <input class="form-control" type="text" asp-for="Receiver.Vendor" />
             </div>
-            <div class="col-md-2 form-group">
+            <div class="col-md-3 form-group">
                 <label asp-for="Receiver.Day">Day:</label>
-                <input class="form-control" type="text" asp-for="Receiver.Day" />
+                <input class="form-control" type="text" asp-for="Receiver.Day" readonly="readonly" />
             </div>
-            <div class="col-md-2 form-group">
+            <div class="col-md-3 form-group">
                 <label asp-for="Receiver.DeliveryDate">Delivery Date:</label>
-                <input class="form-control" type="text" asp-for="Receiver.DeliveryDate" />
+                <input class="form-control" type="date" asp-for="Receiver.DeliveryDate" readonly="readonly" />
             </div>
-            <div class="col-md-2 form-group">
+            <div class="col-md-3 form-group">
                 <label asp-for="Receiver.DeliveryTime">Delivery Time:</label>
                 <input class="form-control" type="text" asp-for="Receiver.DeliveryTime" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <hr />
             </div>
         </div>
 

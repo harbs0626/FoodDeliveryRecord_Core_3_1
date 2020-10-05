@@ -24,7 +24,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
         //public IQueryable<Signature> Signatures 
         //    => this._context.Signatures;
 
-        public void SaveRecord(RecordViewModel _recordViewModel, string _recordStatus)
+        public void SaveRecord(RecordViewModel _recordViewModel)
         {
             if (_recordViewModel.Receiver.Id == 0)
             {
@@ -46,6 +46,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
                     _recordEntry.Receiver.Day = _recordViewModel.Receiver.Day;
                     _recordEntry.Receiver.DeliveryDate = _recordViewModel.Receiver.DeliveryDate;
                     _recordEntry.Receiver.DeliveryTime = _recordViewModel.Receiver.DeliveryTime;
+                    _recordEntry.Receiver.RecordStatus = _recordViewModel.Receiver.RecordStatus;
                 }
             }
 

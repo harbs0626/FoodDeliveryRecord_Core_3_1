@@ -8,11 +8,17 @@
 }
 else
 {
+    if (TempData["SuccessResult"] != null)
+    {
+        <div class="alert alert-success">
+            <b>Note:</b>&nbsp;@TempData["SuccessResult"]
+        </div>
+    }
     @*<div class="alert alert-info">
-        <b>Note:</b>&nbsp;@Model.Receivers.Count() record(s) found. 
+        <b>Note:</b>&nbsp;@Model.Receivers.Count() record(s) found.
     </div>*@
 
-    <table class="table table-responsive table-bordered">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <td>
@@ -44,7 +50,9 @@ else
                     <td>@r.DeliveryTime</td>
                     <td class="align-middle" align="center">
                         <button class="btn btn-info"><i class="fa fa-eye"></i>&nbsp;View</button>
-                        <button class="btn btn-secondary"><i class="fa fa-pen-alt"></i>&nbsp;Edit</button>
+                        <a class="btn btn-secondary" asp-controller="Home" asp-action="Record" asp-route-_recordId="@r.Id">
+                            <i class="fa fa-pen-alt"></i>&nbsp;Edit
+                        </a>
                         <button class="btn btn-danger"><i class="fa fa-exclamation-triangle"></i>&nbsp;Delete</button>
                     </td>
                 </tr>

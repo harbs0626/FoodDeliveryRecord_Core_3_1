@@ -9,17 +9,28 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FoodDeliveryRecord_Core_3_1.Models;
 using FoodDeliveryRecord_Core_3_1.Models.ViewModels;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryRecord_Core_3_1
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public IConfiguration _Configuration { get; }
+
+        public Startup(IConfiguration _configuration)
+        {
+            this._Configuration = _configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options => options
+                .UseSqlServer(this._Configuration["ConnectionStrings:FoodDeliveryDBConn"]));
+
             services.AddMvc(options => options.EnableEndpointRouting = false);
-            //services.AddTransient<IReceiverRepository, EFReceiverRepository>();
+            
+            services.AddTransient<IRecordRepository, EFRecordRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
