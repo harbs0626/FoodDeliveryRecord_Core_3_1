@@ -71,11 +71,16 @@ namespace FoodDeliveryRecord_Core_3_1.Models
         {
             RecordViewModel _recordEntry = new RecordViewModel();
             _recordEntry.Receiver = this._context.Receivers
+                .Include(vl => vl.VendorList)
                 .FirstOrDefault(item => item.Id == _recordId);
+
+            _recordEntry.VendorList = this._context.VendorLists
+                    .FirstOrDefault(item => item.Id == _recordEntry.Receiver.VendorList.Id);
 
             if (_recordEntry != null)
             {
                 this._context.Receivers.Remove(_recordEntry.Receiver);
+                this._context.VendorLists.Remove(_recordEntry.VendorList);
                 this._context.SaveChanges();
             }
         }
