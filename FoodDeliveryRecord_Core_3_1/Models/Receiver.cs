@@ -19,7 +19,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
 
         public string LastName { get; set; }
 
-        public string Vendor { get; set; }
+        public VendorList VendorList { get; set; }
 
         public string Day { get; set; }
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using FoodDeliveryRecord_Core_3_1.Models;
 using FoodDeliveryRecord_Core_3_1.Models.ViewModels;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryRecord_Core_3_1.Controllers
 {
@@ -24,40 +25,56 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
             return View();
         }
 
-        public ViewResult ViewRecords()
+        public ViewResult RecordList()
         {
-            ViewBag.Title = "View Records";
+            ViewBag.Title = "List of Record(s)";
 
-            RecordReportViewModel _receiverViewModel = new RecordReportViewModel();
-            _receiverViewModel.Receivers = this._recordRepository.Receivers
+            RecordViewModel _recordViewModel = new RecordViewModel();
+            _recordViewModel.Receivers = this._recordRepository.Receivers
+                .Include(vl => vl.VendorList)
                 .OrderBy(r => r.Id);
+            _recordViewModel.Vendors = this._recordRepository.Vendors
+                .OrderBy(v => v.Id);
+            //_recordViewModel.VendorLists = this._recordRepository.VendorLists
+            //    .OrderBy(vl => vl.Id);
 
-            return View(_receiverViewModel);
+            return View(_recordViewModel);
         }
 
         public ViewResult Record(int _recordId)
         {
+            RecordViewModel _recordViewModel = new RecordViewModel();
+
             if (_recordId == 0)
             {
                 ViewBag.Title = "New Record";
+                _recordViewModel.Receiver = new Receiver();
+                _recordViewModel.Receiver.Id = 0;
+                _recordViewModel.Receiver.RecordStatus = "New";
+                _recordViewModel.Receiver.Day = DateTime.Now.DayOfWeek.ToString();
+                _recordViewModel.Receiver.DeliveryDate = DateTime.Now.Date;
+                _recordViewModel.Vendors = this._recordRepository.Vendors
+                    .OrderBy(v => v.Id);
 
-                RecordViewModel recordViewModel = new RecordViewModel();
-                recordViewModel.Receiver = new Receiver();
-                recordViewModel.Receiver.RecordStatus = "New";
-                recordViewModel.Receiver.Day = DateTime.Now.DayOfWeek.ToString();
-                recordViewModel.Receiver.DeliveryDate = DateTime.Now.Date;
-
-                return View("Record", recordViewModel);
+                return View("Record", _recordViewModel);
             }
             else
             {
                 ViewBag.Title = "Edit Record";
-
-                RecordViewModel recordViewModel = new RecordViewModel();
-                recordViewModel.Receiver = this._recordRepository.Receivers
+                _recordViewModel.Receiver = this._recordRepository.Receivers
+                    .Include(vl => vl.VendorList)
                     .FirstOrDefault(r => r.Id == _recordId);
+                //var _vendorLists = this._recordRepository.Receivers
+                //    .Include(vl => vl.VendorList);
+                //_recordViewModel.Receiver.VendorList = _vendorLists.ToList();
+                _recordViewModel.Vendors = this._recordRepository.Vendors
+                    .OrderBy(v => v.Id);
+                //_recordViewModel.VendorLists = this._recordRepository.VendorLists
+                //    .OrderBy(vl => vl.Id);
 
-                return View("Record", recordViewModel);
+                
+
+                return View("Record", _recordViewModel);
             }
         }
 
@@ -69,20 +86,63 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
                 //string _workflowStatus = "New";
                 //_recordViewModel.Receiver.RecordStatus = _workflowStatus;
 
-                this._recordRepository.SaveRecord(_recordViewModel);
+                if (_recordViewModel.Receiver.Id == 0)
+                {
+                    this._recordRepository.SaveRecord(_recordViewModel);
 
-                Debug.WriteLine("Done");
+                    TempData["SuccessResult"] = 
+                        $"Successfully recorded {_recordViewModel.Receiver.RecordStatus} data.";
+                }
+                else
+                {
+                    _recordViewModel.Receiver.RecordStatus = "Updated";
 
-                TempData["SuccessResult"] = 
-                    $"Successfully recorded {_recordViewModel.Receiver.RecordStatus} data.";
+                    this._recordRepository.SaveRecord(_recordViewModel);
 
-                return RedirectToAction("ViewRecords");
+                    TempData["SuccessResult"] = $"Successfully updated data.";
+                }
+
+                //Debug.WriteLine("Done...");
+
+                return RedirectToAction("RecordList");
             }
             else
             {
                 return View(_recordViewModel);
             }
         }
+
+        public ViewResult Delete(int _recordId)
+        {
+            RecordViewModel _recordEntry = new RecordViewModel();
+
+            ViewBag.Title = "List of Record(s)";
+
+            try
+            {
+                this._recordRepository.DeleteRecord(_recordId);
+
+                //Debug.WriteLine("Done...");
+
+                TempData["SuccessResult"] = $"Successfully deleted data.";
+
+                _recordEntry.Receivers = this._recordRepository.Receivers
+                    .Include(vl => vl.VendorList)
+                    .OrderBy(item => item.Id);
+                _recordEntry.Vendors = this._recordRepository.Vendors
+                    .OrderBy(v => v.Id);
+                //_recordEntry.VendorLists = this._recordRepository.VendorLists
+                //    .OrderBy(vl => vl.Id);
+                return View("RecordList", _recordEntry);
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Title = "View Records";
+
+                return View("RecordList", _recordEntry);
+            }
+        }
+
     }
 
 }

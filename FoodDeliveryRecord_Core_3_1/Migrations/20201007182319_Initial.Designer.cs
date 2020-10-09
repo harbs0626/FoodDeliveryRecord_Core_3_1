@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDeliveryRecord_Core_3_1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200929221501_Initial")]
+    [Migration("20201007182319_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,12 +52,51 @@ namespace FoodDeliveryRecord_Core_3_1.Migrations
                     b.Property<int>("UnitNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("Vendor")
+                    b.Property<int?>("VendorListId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VendorListId");
+
+                    b.ToTable("Receivers");
+                });
+
+            modelBuilder.Entity("FoodDeliveryRecord_Core_3_1.Models.Vendor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Receivers");
+                    b.ToTable("Vendors");
+                });
+
+            modelBuilder.Entity("FoodDeliveryRecord_Core_3_1.Models.VendorList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Vendors")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VendorLists");
+                });
+
+            modelBuilder.Entity("FoodDeliveryRecord_Core_3_1.Models.Receiver", b =>
+                {
+                    b.HasOne("FoodDeliveryRecord_Core_3_1.Models.VendorList", "VendorList")
+                        .WithMany()
+                        .HasForeignKey("VendorListId");
                 });
 #pragma warning restore 612, 618
         }

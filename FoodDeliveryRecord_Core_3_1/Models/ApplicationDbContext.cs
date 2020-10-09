@@ -14,6 +14,10 @@ namespace FoodDeliveryRecord_Core_3_1.Models
 
         public DbSet<Receiver> Receivers { get; set; }
 
+        public DbSet<Vendor> Vendors { get; set; }
+
+        public DbSet<VendorList> VendorLists { get; set; }
+
         //public DbSet<FoodCondition> FoodConditions { get; set; }
 
         //public DbSet<Signature> Signatures { get; set; }

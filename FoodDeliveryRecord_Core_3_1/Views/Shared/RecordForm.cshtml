@@ -1,7 +1,11 @@
 ﻿@model RecordViewModel
 
+@{ 
+    var model = Model;
+}
+
 <form class="row" asp-action="Record" method="post">
-    <input type="hidden" asp-for="Receiver.Id" value="0" />
+    <input type="hidden" asp-for="Receiver.Id" />
     @*<input type="hidden" asp-for="FoodCondition.ReceiverId" />*@
 
     <div class="col-md-12">
@@ -31,20 +35,58 @@
             </div>
         </div>
 
-        <div class="row" style="margin-bottom:20px">
-            <div class="col-md-3 form-group">
-                <label asp-for="Receiver.Vendor">Vendor:</label>
-                <input class="form-control" type="text" asp-for="Receiver.Vendor" />
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label>Vendor:</label>
+                @*<select class="form-control">
+                    @foreach(var v in Model.Vendors)
+                    {
+                        <option id="@v.Id">@v.Name</option>
+                    }
+                </select>*@
+            <div class="input-group">
+                <div class="input-group-prepend">
+
+                    <a class="btn btn-info dropdown-toggle" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        -----
+                    </a>
+                    <div class="dropdown-menu" style="padding:5px">
+                        @foreach (var v in Model.Vendors)
+                        {
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input id="chkBoxVendorName" type="checkbox" value="@v.Name" />
+                                    </div>
+                                </div>
+                                <label type="text" class="form-control">@v.Name</label>
+                            </div>
+                        }
+                        <div role="separator" class="dropdown-divider"></div>
+                        <button id="getSelectedVendors" type="button"
+                                class="btn btn-outline-info btn-block">
+                            Select
+                        </button>
+                    </div>
+                </div>
+
+                <input id="txtVendors" class="form-control" type="text" asp-for="Receiver.VendorList.Vendors" />
             </div>
-            <div class="col-md-3 form-group">
+                @*<input class="form-control" type="text" asp-for="Receiver.Vendor" />*@
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 form-group">
                 <label asp-for="Receiver.Day">Day:</label>
                 <input class="form-control" type="text" asp-for="Receiver.Day" readonly="readonly" />
             </div>
-            <div class="col-md-3 form-group">
+            <div class="col-md-4 form-group">
                 <label asp-for="Receiver.DeliveryDate">Delivery Date:</label>
                 <input class="form-control" type="date" asp-for="Receiver.DeliveryDate" readonly="readonly" />
             </div>
-            <div class="col-md-3 form-group">
+            <div class="col-md-4 form-group">
                 <label asp-for="Receiver.DeliveryTime">Delivery Time:</label>
                 <input class="form-control" type="text" asp-for="Receiver.DeliveryTime" />
             </div>
@@ -58,7 +100,19 @@
 
         <div class="row">
             <div class="col-md-6 form-group">
-                <button class="btn btn-primary btn-block" type="submit">Add Record</button>
+                @{
+                    var _buttonName = "";
+                    if (Model.Receiver.Id == 0)
+                    {
+                        _buttonName = "Add";
+                    }
+                    else
+                    {
+                        _buttonName = "Update";
+                    }
+
+                    <button class="btn btn-primary btn-block" type="submit">@_buttonName Record</button>
+                }
             </div>
             <div class="col-md-6 form-group">
                 <button class="btn btn-secondary btn-block" type="button">Cancel</button>

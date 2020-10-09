@@ -54,6 +54,8 @@ namespace FoodDeliveryRecord_Core_3_1
             app.UseStaticFiles();
             app.UseStatusCodePages();
             app.UseMvcWithDefaultRoute();
+
+            SeedData.EnsurePopulated(app);
         }
     }
 }

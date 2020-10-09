@@ -10,13 +10,17 @@ namespace FoodDeliveryRecord_Core_3_1.Models
     {
         IQueryable<Receiver> Receivers { get; }
 
+        IQueryable<Vendor> Vendors { get; }
+
+        IQueryable<VendorList> VendorLists { get; }
+
         //IQueryable<FoodCondition> FoodConditions { get; set; }
 
         //IQueryable<Signature> Signatures { get; set; }
 
         void SaveRecord(RecordViewModel _recordFormViewModel);
 
-        void DeleteRecord(RecordViewModel _recordViewModel);
+        void DeleteRecord(int _recordId);
 
         void ArchiveRecord(RecordViewModel _recordViewModel);
 

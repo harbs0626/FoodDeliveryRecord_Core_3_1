@@ -5,10 +5,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200929221501_Initial.cs" />
+    <Compile Remove="Migrations\20200929221501_Initial.Designer.cs" />
     <Compile Remove="Migrations\20201005204659_UpdatedDayAndDateFields.cs" />
     <Compile Remove="Migrations\20201005204659_UpdatedDayAndDateFields.Designer.cs" />
     <Compile Remove="Migrations\20201005204733_UpdatedDayAndDateFields.cs" />
     <Compile Remove="Migrations\20201005204733_UpdatedDayAndDateFields.Designer.cs" />
+    <Compile Remove="Migrations\20201005234853_AddedVendors.cs" />
+    <Compile Remove="Migrations\20201005234853_AddedVendors.Designer.cs" />
+    <Compile Remove="Migrations\20201005235826_UpdatedReceiver.cs" />
+    <Compile Remove="Migrations\20201005235826_UpdatedReceiver.Designer.cs" />
+    <Compile Remove="Migrations\20201006000124_UpdatedReceiver2.cs" />
+    <Compile Remove="Migrations\20201006000124_UpdatedReceiver2.Designer.cs" />
+    <Compile Remove="Migrations\20201006000348_UpdatedReceiver3.cs" />
+    <Compile Remove="Migrations\20201006000348_UpdatedReceiver3.Designer.cs" />
+    <Compile Remove="Migrations\20201007131446_ChangeVendorToVendorList.cs" />
+    <Compile Remove="Migrations\20201007131446_ChangeVendorToVendorList.Designer.cs" />
+    <Compile Remove="Migrations\20201007131543_UpdatedReceiver4.cs" />
+    <Compile Remove="Migrations\20201007131543_UpdatedReceiver4.Designer.cs" />
+    <Compile Remove="Migrations\20201007132858_UpdatedVendorLists.cs" />
+    <Compile Remove="Migrations\20201007132858_UpdatedVendorLists.Designer.cs" />
+    <Compile Remove="Migrations\20201007133832_UpdatedReceiver3_1.cs" />
+    <Compile Remove="Migrations\20201007133832_UpdatedReceiver3_1.Designer.cs" />
+    <Compile Remove="Migrations\20201007134052_UpdatedReceiver1.cs" />
+    <Compile Remove="Migrations\20201007134052_UpdatedReceiver1.Designer.cs" />
+    <Compile Remove="Migrations\20201007134312_Initial.cs" />
+    <Compile Remove="Migrations\20201007134312_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20201007181941_UpdatedVendorList1.cs" />
+    <Compile Remove="Migrations\20201007181941_UpdatedVendorList1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

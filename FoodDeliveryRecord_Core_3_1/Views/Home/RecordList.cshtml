@@ -1,4 +1,4 @@
-﻿@model RecordReportViewModel
+﻿@model RecordViewModel
 
 @if (Model == null)
 {
@@ -10,7 +10,7 @@ else
 {
     if (TempData["SuccessResult"] != null)
     {
-        <div class="alert alert-success">
+        <div class="alert alert-success text-center">
             <b>Note:</b>&nbsp;@TempData["SuccessResult"]
         </div>
     }
@@ -22,12 +22,12 @@ else
         <thead>
             <tr>
                 <td>
-                    <input type="checkbox" />
+                    <input id="chkBoxMain" type="checkbox" />
                 </td>
                 <td>Unit Name</td>
                 <td>Unit Number</td>
                 <td>Receiver</td>
-                <td>Vendor</td>
+                <td>Vendors</td>
                 <td>Day</td>
                 <td>Delivery Date</td>
                 <td>Delivery Time</td>
@@ -39,21 +39,34 @@ else
             {
                 <tr>
                     <td>
-                        <input type="checkbox" />
+                        <input id="chkBoxChild" type="checkbox" />
                     </td>
                     <td>@r.UnitName</td>
                     <td>@r.UnitNumber</td>
                     <td>@r.FirstName @r.LastName</td>
-                    <td>@r.Vendor</td>
+
+                    @{
+                        //foreach (var v in Model.VendorLists
+                        //    .Where(v => v.Id == r.VendorList.Id))
+                        //{
+                        //    <td>@v.Vendors</td>
+                        //}
+                    }
+                    <td>@r.VendorList.Vendors</td>
+
                     <td>@r.Day</td>
                     <td>@r.DeliveryDate</td>
                     <td>@r.DeliveryTime</td>
                     <td class="align-middle" align="center">
                         <button class="btn btn-info"><i class="fa fa-eye"></i>&nbsp;View</button>
-                        <a class="btn btn-secondary" asp-controller="Home" asp-action="Record" asp-route-_recordId="@r.Id">
+                        <a class="btn btn-secondary" asp-controller="Home" asp-action="Record" 
+                           asp-route-_recordId="@r.Id">
                             <i class="fa fa-pen-alt"></i>&nbsp;Edit
                         </a>
-                        <button class="btn btn-danger"><i class="fa fa-exclamation-triangle"></i>&nbsp;Delete</button>
+                        <a class="btn btn-danger" asp-controller="Home" asp-action="Delete" 
+                           asp-route-_recordId="@r.Id">
+                            <i class="fa fa-exclamation-triangle"></i>&nbsp;Delete
+                        </a>
                     </td>
                 </tr>
             }
