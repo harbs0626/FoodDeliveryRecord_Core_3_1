@@ -16,17 +16,11 @@ namespace FoodDeliveryRecord_Core_3_1.Models
             this._context = _ctx;
         }
 
-        public IQueryable<Receiver> Receivers 
-            => this._context.Receivers;
-
-        public IQueryable<Vendor> Vendors
-            => this._context.Vendors;
-
-        public IQueryable<VendorList> VendorLists
-            => this._context.VendorLists;
-
-        //public IQueryable<FoodCondition> FoodConditions 
-        //    => this._context.FoodConditions;
+        public IQueryable<Receiver> Receivers => this._context.Receivers;
+        public IQueryable<Vendor> Vendors => this._context.Vendors;
+        public IQueryable<VendorList> VendorLists => this._context.VendorLists;
+        public IQueryable<FoodCondition> FoodConditions => this._context.FoodConditions;
+        public IQueryable<Detail> Details => this._context.Details;
 
         //public IQueryable<Signature> Signatures 
         //    => this._context.Signatures;
@@ -35,19 +29,27 @@ namespace FoodDeliveryRecord_Core_3_1.Models
         {
             if (_recordViewModel.Receiver.Id == 0)
             {
-                //_recordViewModel.Receiver.VendorList = _recordViewModel.VendorList;
                 this._context.Receivers.Add(_recordViewModel.Receiver);
                 this._context.VendorLists.Add(_recordViewModel.Receiver.VendorList);
+                this._context.FoodConditions.Add(_recordViewModel.Receiver.FoodCondition);
             }
             else
             {
                 RecordViewModel _recordEntry = new RecordViewModel();
                 _recordEntry.Receiver = this._context.Receivers
                     .Include(vl => vl.VendorList)
+                    //.Include(fc => fc.FoodCondition)
+                    .Include(pc1 => pc1.FoodCondition.PackageCondition)
+                    .Include(pc2 => pc2.FoodCondition.ProductCondition)
+                    .Include(pt1 => pt1.FoodCondition.PackageTemperature)
+                    .Include(pt2 => pt2.FoodCondition.ProductTemperature)
                     .FirstOrDefault(item => item.Id == _recordViewModel.Receiver.Id);
 
                 _recordEntry.VendorList = this._context.VendorLists
                     .FirstOrDefault(item => item.Id == _recordEntry.Receiver.VendorList.Id);
+
+                _recordEntry.FoodCondition = this._context.FoodConditions
+                    .FirstOrDefault(item => item.Id == _recordEntry.Receiver.FoodCondition.Id);
 
                 if (_recordEntry != null)
                 {
@@ -61,6 +63,24 @@ namespace FoodDeliveryRecord_Core_3_1.Models
                     _recordEntry.Receiver.RecordStatus = _recordViewModel.Receiver.RecordStatus;
 
                     _recordEntry.VendorList.Vendors = _recordViewModel.Receiver.VendorList.Vendors;
+
+                    _recordEntry.FoodCondition.PackageCondition.Acceptable = 
+                        _recordViewModel.Receiver.FoodCondition.PackageCondition.Acceptable;
+                    _recordEntry.FoodCondition.PackageCondition.Unacceptable = 
+                        _recordViewModel.Receiver.FoodCondition.PackageCondition.Unacceptable;
+                    _recordEntry.FoodCondition.ProductCondition.Acceptable = 
+                        _recordViewModel.Receiver.FoodCondition.ProductCondition.Acceptable;
+                    _recordEntry.FoodCondition.ProductCondition.Unacceptable = 
+                        _recordViewModel.Receiver.FoodCondition.ProductCondition.Unacceptable;
+
+                    _recordEntry.FoodCondition.PackageTemperature.Acceptable = 
+                        _recordViewModel.Receiver.FoodCondition.PackageTemperature.Acceptable;
+                    _recordEntry.FoodCondition.PackageTemperature.Unacceptable = 
+                        _recordViewModel.Receiver.FoodCondition.PackageTemperature.Unacceptable;
+                    _recordEntry.FoodCondition.ProductTemperature.Acceptable = 
+                        _recordViewModel.Receiver.FoodCondition.ProductTemperature.Acceptable;
+                    _recordEntry.FoodCondition.ProductTemperature.Unacceptable = 
+                        _recordViewModel.Receiver.FoodCondition.ProductTemperature.Unacceptable;
                 }
             }
 

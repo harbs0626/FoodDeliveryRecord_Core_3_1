@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace FoodDeliveryRecord_Core_3_1.Models
 {
-    public class Detail
+    public class PackageCondition
     {
         [Key]
         public int Id { get; set; }
 
-        public string AdditionalDetail { get; set; }
+        public bool Acceptable { get; set; } = false;
 
-        public string CorrectiveAction { get; set; }
+        public bool Unacceptable { get; set; } = false;
 
     }
 }

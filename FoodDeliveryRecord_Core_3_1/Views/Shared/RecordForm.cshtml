@@ -4,120 +4,250 @@
     var model = Model;
 }
 
-<form class="row" asp-action="Record" method="post">
-    <input type="hidden" asp-for="Receiver.Id" />
-    @*<input type="hidden" asp-for="FoodCondition.ReceiverId" />*@
+    <form class="row" asp-action="Record" method="post">
+        <input type="hidden" asp-for="Receiver.Id" />
 
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-4 form-group">
-                <label asp-for="Receiver.UnitName">Unit Name:</label>
-                <input class="form-control" type="text" asp-for="Receiver.UnitName" />
+        <!-- Receiver -->
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <h4>Receiver:</h4>
+                </div>
             </div>
-            <div class="col-md-4 form-group">
-                <label asp-for="Receiver.UnitNumber">Unit Number:</label>
-                <input class="form-control" type="text" asp-for="Receiver.UnitNumber" />
-            </div>
-            <div class="col-md-4 form-group">
-                <label asp-for="Receiver.RecordStatus">Status:</label>
-                <input class="form-control" type="text" asp-for="Receiver.RecordStatus" readonly="readonly" />
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-6 form-group">
-                <label asp-for="Receiver.FirstName">First Name:</label>
-                <input class="form-control" type="text" asp-for="Receiver.FirstName" />
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label asp-for="Receiver.UnitName">Unit Name:</label>
+                    <input class="form-control" type="text" asp-for="Receiver.UnitName" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="Receiver.UnitNumber">Unit Number:</label>
+                    <input class="form-control" type="text" asp-for="Receiver.UnitNumber" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="Receiver.RecordStatus">Status:</label>
+                    <input class="form-control" type="text" asp-for="Receiver.RecordStatus" readonly="readonly" />
+                </div>
             </div>
-            <div class="col-md-6 form-group">
-                <label asp-for="Receiver.LastName">Last Name:</label>
-                <input class="form-control" type="text" asp-for="Receiver.LastName" />
+
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label asp-for="Receiver.FirstName">First Name:</label>
+                    <input class="form-control" type="text" asp-for="Receiver.FirstName" />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label asp-for="Receiver.LastName">Last Name:</label>
+                    <input class="form-control" type="text" asp-for="Receiver.LastName" />
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-12 form-group">
-                <label>Vendor:</label>
-                @*<select class="form-control">
-                    @foreach(var v in Model.Vendors)
-                    {
-                        <option id="@v.Id">@v.Name</option>
-                    }
-                </select>*@
-            <div class="input-group">
-                <div class="input-group-prepend">
-
-                    <a class="btn btn-info dropdown-toggle" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        -----
-                    </a>
-                    <div class="dropdown-menu" style="padding:5px">
-                        @foreach (var v in Model.Vendors)
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <label>Vendor:</label>
+                    @*<select class="form-control">
+                        @foreach(var v in Model.Vendors)
                         {
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <input id="chkBoxVendorName" type="checkbox" value="@v.Name" />
-                                    </div>
-                                </div>
-                                <label type="text" class="form-control">@v.Name</label>
-                            </div>
+                            <option id="@v.Id">@v.Name</option>
                         }
-                        <div role="separator" class="dropdown-divider"></div>
-                        <button id="getSelectedVendors" type="button"
-                                class="btn btn-outline-info btn-block">
-                            Select
-                        </button>
+                    </select>*@
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+
+                            <a class="btn btn-info dropdown-toggle" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                -----
+                            </a>
+                            <div class="dropdown-menu" style="padding:5px">
+                                @foreach (var v in Model.Vendors)
+                                {
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input id="chkBoxVendorName" type="checkbox" value="@v.Name" />
+                                            </div>
+                                        </div>
+                                        <label type="text" class="form-control">@v.Name</label>
+                                    </div>
+                                }
+                                <div role="separator" class="dropdown-divider"></div>
+                                <button id="getSelectedVendors" type="button"
+                                        class="btn btn-outline-info btn-block">
+                                    Select
+                                </button>
+                            </div>
+                        </div>
+
+                        <input id="txtVendors" class="form-control" type="text" asp-for="Receiver.VendorList.Vendors" />
+                    </div>
+                    @*<input class="form-control" type="text" asp-for="Receiver.Vendor" />*@
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label asp-for="Receiver.Day">Day:</label>
+                    <input class="form-control" type="text" asp-for="Receiver.Day" readonly="readonly" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="Receiver.DeliveryDate">Delivery Date:</label>
+                    <input class="form-control" type="date" asp-for="Receiver.DeliveryDate" readonly="readonly" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="Receiver.DeliveryTime">Delivery Time:</label>
+                    <input class="form-control" type="text" asp-for="Receiver.DeliveryTime" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <hr />
+                </div>
+            </div>
+        </div>
+
+        <!-- Food Condition -->
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <h4>Food Condition:</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label>A - Package and B - Product Conditions?</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" asp-for="Receiver.FoodCondition.PackageCondition.Acceptable">
+                            </div>
+                        </div>
+                        <label class="form-control" disabled="disabled">A - Acceptable</label>
                     </div>
                 </div>
-
-                <input id="txtVendors" class="form-control" type="text" asp-for="Receiver.VendorList.Vendors" />
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" asp-for="Receiver.FoodCondition.PackageCondition.Unacceptable">
+                            </div>
+                        </div>
+                        <label class="form-control" disabled="disabled">A - Unacceptable</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" asp-for="Receiver.FoodCondition.ProductCondition.Acceptable">
+                            </div>
+                        </div>
+                        <label class="form-control" disabled="disabled">B - Acceptable</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" asp-for="Receiver.FoodCondition.ProductCondition.Unacceptable">
+                            </div>
+                        </div>
+                        <label class="form-control" disabled="disabled">B - Unacceptable</label>
+                    </div>
+                </div>
             </div>
-                @*<input class="form-control" type="text" asp-for="Receiver.Vendor" />*@
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label>C - Package and D - Product Temperatures?</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" asp-for="Receiver.FoodCondition.PackageTemperature.Acceptable">
+                            </div>
+                        </div>
+                        <label class="form-control" disabled="disabled">C - Acceptable</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" asp-for="Receiver.FoodCondition.PackageTemperature.Unacceptable">
+                            </div>
+                        </div>
+                        <label class="form-control" disabled="disabled">C - Unacceptable</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" asp-for="Receiver.FoodCondition.ProductTemperature.Acceptable">
+                            </div>
+                        </div>
+                        <label class="form-control" disabled="disabled">D - Acceptable</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" asp-for="Receiver.FoodCondition.ProductTemperature.Unacceptable">
+                            </div>
+                        </div>
+                        <label class="form-control" disabled="disabled">D - Unacceptable</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <hr />
+                </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-4 form-group">
-                <label asp-for="Receiver.Day">Day:</label>
-                <input class="form-control" type="text" asp-for="Receiver.Day" readonly="readonly" />
-            </div>
-            <div class="col-md-4 form-group">
-                <label asp-for="Receiver.DeliveryDate">Delivery Date:</label>
-                <input class="form-control" type="date" asp-for="Receiver.DeliveryDate" readonly="readonly" />
-            </div>
-            <div class="col-md-4 form-group">
-                <label asp-for="Receiver.DeliveryTime">Delivery Time:</label>
-                <input class="form-control" type="text" asp-for="Receiver.DeliveryTime" />
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <hr />
+        <!-- Detail -->
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label asp-for="Detail.AdditionalDetail">Provide details of any item checked "Unacceptable":</label>
+                    <input class="form-control" type="text" asp-for="Detail.AdditionalDetail" />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label asp-for="Detail.CorrectiveAction">Corrective Action:</label>
+                    <input class="form-control" type="text" asp-for="Detail.CorrectiveAction" />
+                </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6 form-group">
-                @{
-                    var _buttonName = "";
-                    if (Model.Receiver.Id == 0)
-                    {
-                        _buttonName = "Add";
+        <!-- Buttons -->
+        <div class="col-md-12" style="margin-bottom:60px">
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    @{
+                        var _buttonName = "";
+                        if (Model.Receiver.Id == 0)
+                        {
+                            _buttonName = "Add";
+                        }
+                        else
+                        {
+                            _buttonName = "Update";
+                        }
+
+                        <button class="btn btn-primary btn-block" type="submit">@_buttonName Record</button>
                     }
-                    else
-                    {
-                        _buttonName = "Update";
-                    }
-
-                    <button class="btn btn-primary btn-block" type="submit">@_buttonName Record</button>
-                }
-            </div>
-            <div class="col-md-6 form-group">
-                <button class="btn btn-secondary btn-block" type="button">Cancel</button>
+                </div>
+                <div class="col-md-6 form-group">
+                    <button class="btn btn-secondary btn-block" type="button">Cancel</button>
+                </div>
             </div>
         </div>
 
-    </div>
-</form>
+    </form>

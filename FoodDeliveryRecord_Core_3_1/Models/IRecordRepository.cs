@@ -14,9 +14,11 @@ namespace FoodDeliveryRecord_Core_3_1.Models
 
         IQueryable<VendorList> VendorLists { get; }
 
-        //IQueryable<FoodCondition> FoodConditions { get; set; }
+        IQueryable<FoodCondition> FoodConditions { get; }
 
-        //IQueryable<Signature> Signatures { get; set; }
+        IQueryable<Detail> Details { get; }
+
+        //IQueryable<Signature> Signatures { get; }
 
         void SaveRecord(RecordViewModel _recordFormViewModel);
 

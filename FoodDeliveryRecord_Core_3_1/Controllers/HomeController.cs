@@ -32,11 +32,14 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
             RecordViewModel _recordViewModel = new RecordViewModel();
             _recordViewModel.Receivers = this._recordRepository.Receivers
                 .Include(vl => vl.VendorList)
+                //.Include(fc => fc.FoodCondition)
+                .Include(pc1 => pc1.FoodCondition.PackageCondition)
+                .Include(pc2 => pc2.FoodCondition.ProductCondition)
+                .Include(pt1 => pt1.FoodCondition.PackageTemperature)
+                .Include(pt2 => pt2.FoodCondition.ProductTemperature)
                 .OrderBy(r => r.Id);
             _recordViewModel.Vendors = this._recordRepository.Vendors
                 .OrderBy(v => v.Id);
-            //_recordViewModel.VendorLists = this._recordRepository.VendorLists
-            //    .OrderBy(vl => vl.Id);
 
             return View(_recordViewModel);
         }
@@ -49,13 +52,8 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
             {
                 ViewBag.Title = "New Record";
                 _recordViewModel.Receiver = new Receiver();
-                _recordViewModel.Receiver.Id = 0;
-                _recordViewModel.Receiver.RecordStatus = "New";
-                _recordViewModel.Receiver.Day = DateTime.Now.DayOfWeek.ToString();
-                _recordViewModel.Receiver.DeliveryDate = DateTime.Now.Date;
                 _recordViewModel.Vendors = this._recordRepository.Vendors
                     .OrderBy(v => v.Id);
-
                 return View("Record", _recordViewModel);
             }
             else
@@ -63,16 +61,14 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
                 ViewBag.Title = "Edit Record";
                 _recordViewModel.Receiver = this._recordRepository.Receivers
                     .Include(vl => vl.VendorList)
+                    //.Include(fc => fc.FoodCondition)
+                    .Include(pc1 => pc1.FoodCondition.PackageCondition)
+                    .Include(pc2 => pc2.FoodCondition.ProductCondition)
+                    .Include(pt1 => pt1.FoodCondition.PackageTemperature)
+                    .Include(pt2 => pt2.FoodCondition.ProductTemperature)
                     .FirstOrDefault(r => r.Id == _recordId);
-                //var _vendorLists = this._recordRepository.Receivers
-                //    .Include(vl => vl.VendorList);
-                //_recordViewModel.Receiver.VendorList = _vendorLists.ToList();
                 _recordViewModel.Vendors = this._recordRepository.Vendors
                     .OrderBy(v => v.Id);
-                //_recordViewModel.VendorLists = this._recordRepository.VendorLists
-                //    .OrderBy(vl => vl.Id);
-
-                
 
                 return View("Record", _recordViewModel);
             }
@@ -83,9 +79,6 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
         {
             if (ModelState.IsValid)
             {
-                //string _workflowStatus = "New";
-                //_recordViewModel.Receiver.RecordStatus = _workflowStatus;
-
                 if (_recordViewModel.Receiver.Id == 0)
                 {
                     this._recordRepository.SaveRecord(_recordViewModel);
@@ -101,8 +94,6 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
 
                     TempData["SuccessResult"] = $"Successfully updated data.";
                 }
-
-                //Debug.WriteLine("Done...");
 
                 return RedirectToAction("RecordList");
             }
@@ -128,11 +119,15 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
 
                 _recordEntry.Receivers = this._recordRepository.Receivers
                     .Include(vl => vl.VendorList)
+                    //.Include(fc => fc.FoodCondition)
+                    .Include(pc1 => pc1.FoodCondition.PackageCondition)
+                    .Include(pc2 => pc2.FoodCondition.ProductCondition)
+                    .Include(pt1 => pt1.FoodCondition.PackageTemperature)
+                    .Include(pt2 => pt2.FoodCondition.ProductTemperature)
                     .OrderBy(item => item.Id);
                 _recordEntry.Vendors = this._recordRepository.Vendors
                     .OrderBy(v => v.Id);
-                //_recordEntry.VendorLists = this._recordRepository.VendorLists
-                //    .OrderBy(vl => vl.Id);
+
                 return View("RecordList", _recordEntry);
             }
             catch(Exception ex)

@@ -21,19 +21,15 @@ namespace FoodDeliveryRecord_Core_3_1.Models
 
         public VendorList VendorList { get; set; }
 
-        public string Day { get; set; }
+        public string Day { get; set; } = DateTime.Now.DayOfWeek.ToString();
 
-        //public string Day { get; set; } =
-        //    DateTime.Now.DayOfWeek.ToString();
-
-        public DateTime DeliveryDate { get; set; }
-
-        //public DateTime DeliveryDate { get; set; } =
-        //    DateTime.Now.Date;
+        public DateTime DeliveryDate { get; set; } = DateTime.Now.Date;
 
         public string DeliveryTime { get; set; }
 
-        public string RecordStatus { get; set; }
+        public string RecordStatus { get; set; } = "New";
+
+        public FoodCondition FoodCondition { get; set; }
 
     }
 }
