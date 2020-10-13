@@ -217,11 +217,16 @@
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label asp-for="Detail.AdditionalDetail">Provide details of any item checked "Unacceptable":</label>
-                    <input class="form-control" type="text" asp-for="Detail.AdditionalDetail" />
+                    <textarea class="form-control" type="text" asp-for="Receiver.FoodCondition.Detail.AdditionalDetail" rows="10"></textarea>
                 </div>
                 <div class="col-md-6 form-group">
                     <label asp-for="Detail.CorrectiveAction">Corrective Action:</label>
-                    <input class="form-control" type="text" asp-for="Detail.CorrectiveAction" />
+                    <textarea class="form-control" type="text" asp-for="Receiver.FoodCondition.Detail.CorrectiveAction" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr />
                 </div>
             </div>
         </div>

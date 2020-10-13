@@ -32,6 +32,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
                 this._context.Receivers.Add(_recordViewModel.Receiver);
                 this._context.VendorLists.Add(_recordViewModel.Receiver.VendorList);
                 this._context.FoodConditions.Add(_recordViewModel.Receiver.FoodCondition);
+                this._context.Details.Add(_recordViewModel.Receiver.FoodCondition.Detail);
             }
             else
             {
@@ -43,6 +44,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
                     .Include(pc2 => pc2.FoodCondition.ProductCondition)
                     .Include(pt1 => pt1.FoodCondition.PackageTemperature)
                     .Include(pt2 => pt2.FoodCondition.ProductTemperature)
+                    .Include(d => d.FoodCondition.Detail)
                     .FirstOrDefault(item => item.Id == _recordViewModel.Receiver.Id);
 
                 _recordEntry.VendorList = this._context.VendorLists
@@ -81,6 +83,11 @@ namespace FoodDeliveryRecord_Core_3_1.Models
                         _recordViewModel.Receiver.FoodCondition.ProductTemperature.Acceptable;
                     _recordEntry.FoodCondition.ProductTemperature.Unacceptable = 
                         _recordViewModel.Receiver.FoodCondition.ProductTemperature.Unacceptable;
+
+                    _recordEntry.FoodCondition.Detail.AdditionalDetail = 
+                        _recordViewModel.Receiver.FoodCondition.Detail.AdditionalDetail;
+                    _recordEntry.FoodCondition.Detail.CorrectiveAction =
+                        _recordViewModel.Receiver.FoodCondition.Detail.CorrectiveAction;
                 }
             }
 
@@ -92,15 +99,26 @@ namespace FoodDeliveryRecord_Core_3_1.Models
             RecordViewModel _recordEntry = new RecordViewModel();
             _recordEntry.Receiver = this._context.Receivers
                 .Include(vl => vl.VendorList)
+                //.Include(fc => fc.FoodCondition)
+                .Include(pc1 => pc1.FoodCondition.PackageCondition)
+                .Include(pc2 => pc2.FoodCondition.ProductCondition)
+                .Include(pt1 => pt1.FoodCondition.PackageTemperature)
+                .Include(pt2 => pt2.FoodCondition.ProductTemperature)
+                .Include(d => d.FoodCondition.Detail)
                 .FirstOrDefault(item => item.Id == _recordId);
 
             _recordEntry.VendorList = this._context.VendorLists
                     .FirstOrDefault(item => item.Id == _recordEntry.Receiver.VendorList.Id);
 
+            _recordEntry.FoodCondition = this._context.FoodConditions
+                    .FirstOrDefault(item => item.Id == _recordEntry.Receiver.FoodCondition.Id);
+
             if (_recordEntry != null)
             {
                 this._context.Receivers.Remove(_recordEntry.Receiver);
                 this._context.VendorLists.Remove(_recordEntry.VendorList);
+                this._context.FoodConditions.Remove(_recordEntry.FoodCondition);
+                this._context.Details.Remove(_recordEntry.FoodCondition.Detail);
                 this._context.SaveChanges();
             }
         }
