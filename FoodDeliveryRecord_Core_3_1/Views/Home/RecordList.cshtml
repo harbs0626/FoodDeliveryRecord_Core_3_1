@@ -27,7 +27,7 @@ else
 </div>
 
     <table class="table table-bordered">
-        <thead>
+        <thead class="table-primary">
             <tr>
                 @*<td>
                     <input id="chkBoxMain" type="checkbox" />
@@ -63,7 +63,13 @@ else
                     <td>@r.VendorList.Vendors</td>
 
                     <td>@r.Day</td>
-                    <td>@r.DeliveryDate</td>
+
+                    @{ 
+                        var delDate = r.DeliveryDate;
+                        var getDateOnly = delDate.ToShortDateString();
+                    }
+                    <td>@getDateOnly</td>
+
                     <td>@r.DeliveryTime</td>
                     <td class="align-middle" align="center">
                         <button class="btn btn-info"><i class="fa fa-eye"></i>&nbsp;View</button>
