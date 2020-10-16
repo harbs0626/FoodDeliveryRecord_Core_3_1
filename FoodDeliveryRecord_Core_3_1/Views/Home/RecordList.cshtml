@@ -18,12 +18,20 @@ else
         <b>Note:</b>&nbsp;@Model.Receivers.Count() record(s) found.
     </div>*@
 
+<div class="col-md-12">
+    <div class="form-group d-flex justify-content-center">
+        <a class="btn btn-info" asp-controller="Home" asp-action="Record">
+            Add New Record
+        </a>
+    </div>
+</div>
+
     <table class="table table-bordered">
         <thead>
             <tr>
-                <td>
+                @*<td>
                     <input id="chkBoxMain" type="checkbox" />
-                </td>
+                </td>*@
                 <td>Unit Name</td>
                 <td>Unit Number</td>
                 <td>Receiver</td>
@@ -38,9 +46,9 @@ else
             @foreach (var r in Model.Receivers)
             {
                 <tr>
-                    <td>
+                    @*<td>
                         <input id="chkBoxChild" type="checkbox" />
-                    </td>
+                    </td>*@
                     <td>@r.UnitName</td>
                     <td>@r.UnitNumber</td>
                     <td>@r.FirstName @r.LastName</td>

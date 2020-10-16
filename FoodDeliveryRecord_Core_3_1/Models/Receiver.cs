@@ -31,5 +31,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
 
         public FoodCondition FoodCondition { get; set; }
 
+        public Signature Signature { get; set; }
+
     }
 }

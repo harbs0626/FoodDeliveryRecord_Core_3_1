@@ -17,6 +17,8 @@ namespace FoodDeliveryRecord_Core_3_1.Models.ViewModels
 
         public Detail Detail { get; set; }
 
+        public Signature Signature { get; set; }
+
         public IEnumerable<Receiver> Receivers { get; set; }
 
         public IEnumerable<Vendor> Vendors { get; set; }
@@ -26,6 +28,8 @@ namespace FoodDeliveryRecord_Core_3_1.Models.ViewModels
         public IEnumerable<FoodCondition> FoodConditions { get; set; }
 
         public IEnumerable<Detail> Details { get; set; }
+
+        public IEnumerable<Signature> Signatures { get; set; }
 
     }
 }

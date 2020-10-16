@@ -215,6 +215,9 @@
         <!-- Detail -->
         <div class="col-md-12">
             <div class="row">
+                <div class="col-md-12 form-group">
+                    <h4>Additional Details:</h4>
+                </div>
                 <div class="col-md-6 form-group">
                     <label asp-for="Detail.AdditionalDetail">Provide details of any item checked "Unacceptable":</label>
                     <textarea class="form-control" type="text" asp-for="Receiver.FoodCondition.Detail.AdditionalDetail" rows="10"></textarea>
@@ -223,6 +226,39 @@
                     <label asp-for="Detail.CorrectiveAction">Corrective Action:</label>
                     <textarea class="form-control" type="text" asp-for="Receiver.FoodCondition.Detail.CorrectiveAction" rows="10"></textarea>
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <hr />
+                </div>
+            </div>
+        </div>
+
+        <!-- Signature -->
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <h4>Manager's Signature:</h4>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label asp-for="Receiver.Signature.ManagerSignature">Verified By:</label>
+                    <div id="divSignaturePad">
+                        <canvas></canvas>
+                    </div>
+                    <input id="txtSignature" type="hidden" asp-for="Receiver.Signature.ManagerSignature" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <button id="acceptSignature" type="button" class="btn btn-outline-primary btn-block">Accept Signature</button>
+                </div>
+                <div class="col-md-4 form-group">
+                    <button id="resetSignature" type="button" class="btn btn-outline-secondary btn-block">Reset Signature</button>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="Receiver.Signature.DateVerified">Verified Date:</label>
+                    <input class="form-control" type="date" asp-for="Receiver.Signature.DateVerified" />
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -250,7 +286,8 @@
                     }
                 </div>
                 <div class="col-md-6 form-group">
-                    <button class="btn btn-secondary btn-block" type="button">Cancel</button>
+                    <a class="btn btn-secondary btn-block"
+                        asp-controller="Home" asp-action="RecordList">Cancel</a>
                 </div>
             </div>
         </div>

@@ -13,11 +13,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
 
         public string ManagerSignature { get; set; }
 
-        public DateTime DateVerified { get; set; }
-
-        public int ReceiverId { get; set; }
-
-        public int FoodConditionId { get; set; }
+        public DateTime? DateVerified { get; set; }
 
     }
 }

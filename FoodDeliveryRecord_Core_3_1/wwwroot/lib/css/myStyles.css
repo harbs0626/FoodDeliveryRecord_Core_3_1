@@ -1,3 +1,9 @@
 ﻿.mt-5, .my-5 {
     margin-top: 6rem !important;
 }
+
+#divSignaturePad {
+    border: solid 1px #ced4da;
+    border-radius: 0.25rem;
+    height: 300px;
+}

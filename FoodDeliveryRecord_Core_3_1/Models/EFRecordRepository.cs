@@ -21,9 +21,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
         public IQueryable<VendorList> VendorLists => this._context.VendorLists;
         public IQueryable<FoodCondition> FoodConditions => this._context.FoodConditions;
         public IQueryable<Detail> Details => this._context.Details;
-
-        //public IQueryable<Signature> Signatures 
-        //    => this._context.Signatures;
+        public IQueryable<Signature> Signatures => this._context.Signatures;
 
         public void SaveRecord(RecordViewModel _recordViewModel)
         {
@@ -33,6 +31,17 @@ namespace FoodDeliveryRecord_Core_3_1.Models
                 this._context.VendorLists.Add(_recordViewModel.Receiver.VendorList);
                 this._context.FoodConditions.Add(_recordViewModel.Receiver.FoodCondition);
                 this._context.Details.Add(_recordViewModel.Receiver.FoodCondition.Detail);
+
+                if (string.IsNullOrWhiteSpace(_recordViewModel.Receiver.Signature.ManagerSignature))
+                {
+                    this._context.Signatures.Add(_recordViewModel.Receiver.Signature);
+                }
+                else
+                {
+                    var getBase64Signature = _recordViewModel.Receiver.Signature.ManagerSignature.Split(",")[1];
+                    _recordViewModel.Receiver.Signature.ManagerSignature = getBase64Signature;
+                    this._context.Signatures.Add(_recordViewModel.Receiver.Signature);
+                }
             }
             else
             {
@@ -45,6 +54,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
                     .Include(pt1 => pt1.FoodCondition.PackageTemperature)
                     .Include(pt2 => pt2.FoodCondition.ProductTemperature)
                     .Include(d => d.FoodCondition.Detail)
+                    .Include(s => s.Signature)
                     .FirstOrDefault(item => item.Id == _recordViewModel.Receiver.Id);
 
                 _recordEntry.VendorList = this._context.VendorLists
@@ -52,6 +62,14 @@ namespace FoodDeliveryRecord_Core_3_1.Models
 
                 _recordEntry.FoodCondition = this._context.FoodConditions
                     .FirstOrDefault(item => item.Id == _recordEntry.Receiver.FoodCondition.Id);
+
+                int _checkStat = 0;
+                if (_recordEntry.Receiver.Signature != null)
+                {
+                    _recordEntry.Signature = this._context.Signatures
+                        .FirstOrDefault(item => item.Id == _recordEntry.Receiver.Signature.Id);
+                    _checkStat = 1;
+                }
 
                 if (_recordEntry != null)
                 {
@@ -88,6 +106,14 @@ namespace FoodDeliveryRecord_Core_3_1.Models
                         _recordViewModel.Receiver.FoodCondition.Detail.AdditionalDetail;
                     _recordEntry.FoodCondition.Detail.CorrectiveAction =
                         _recordViewModel.Receiver.FoodCondition.Detail.CorrectiveAction;
+
+                    if (_checkStat == 1)
+                    {
+                        _recordEntry.Signature.ManagerSignature =
+                            _recordViewModel.Receiver.Signature.ManagerSignature;
+                        _recordEntry.Signature.DateVerified =
+                            _recordViewModel.Receiver.Signature.DateVerified;
+                    }
                 }
             }
 
@@ -99,19 +125,27 @@ namespace FoodDeliveryRecord_Core_3_1.Models
             RecordViewModel _recordEntry = new RecordViewModel();
             _recordEntry.Receiver = this._context.Receivers
                 .Include(vl => vl.VendorList)
-                //.Include(fc => fc.FoodCondition)
                 .Include(pc1 => pc1.FoodCondition.PackageCondition)
                 .Include(pc2 => pc2.FoodCondition.ProductCondition)
                 .Include(pt1 => pt1.FoodCondition.PackageTemperature)
                 .Include(pt2 => pt2.FoodCondition.ProductTemperature)
-                .Include(d => d.FoodCondition.Detail)
+                .Include(fcd => fcd.FoodCondition.Detail)
+                .Include(sig => sig.Signature)
                 .FirstOrDefault(item => item.Id == _recordId);
 
             _recordEntry.VendorList = this._context.VendorLists
-                    .FirstOrDefault(item => item.Id == _recordEntry.Receiver.VendorList.Id);
+                .FirstOrDefault(item => item.Id == _recordEntry.Receiver.VendorList.Id);
 
             _recordEntry.FoodCondition = this._context.FoodConditions
-                    .FirstOrDefault(item => item.Id == _recordEntry.Receiver.FoodCondition.Id);
+                .FirstOrDefault(item => item.Id == _recordEntry.Receiver.FoodCondition.Id);
+
+            int _checkStat = 0;
+            if (_recordEntry.Receiver.Signature != null)
+            {
+                _recordEntry.Signature = this._context.Signatures
+                    .FirstOrDefault(item => item.Id == _recordEntry.Receiver.Signature.Id);
+                _checkStat = 1;
+            }
 
             if (_recordEntry != null)
             {
@@ -119,6 +153,12 @@ namespace FoodDeliveryRecord_Core_3_1.Models
                 this._context.VendorLists.Remove(_recordEntry.VendorList);
                 this._context.FoodConditions.Remove(_recordEntry.FoodCondition);
                 this._context.Details.Remove(_recordEntry.FoodCondition.Detail);
+
+                if (_checkStat == 1)
+                {
+                    this._context.Signatures.Remove(_recordEntry.Signature);
+                }
+
                 this._context.SaveChanges();
             }
         }

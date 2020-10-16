@@ -13,6 +13,8 @@
 
     <link href="~/lib/calendar/css/fullcalendar-ui.css" rel="stylesheet" />
     <link href="~/lib/calendar/css/myStyles.css" rel="stylesheet" />
+    <link href="~/lib/css/myStyles.css" rel="stylesheet" />
+
 </head>
 <body class="d-flex flex-column h-100">
     <header>
@@ -29,15 +31,20 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
+                        <a class="nav-link" href="#">
+                            About Me<span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    @*<li class="nav-item active">
                         <a class="nav-link" asp-controller="Home" asp-action="RecordList">
                             View Record<span class="sr-only">(current)</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
+                    </li>*@
+                    @*<li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Record">
                             New Records
                         </a>
-                    </li>
+                    </li>*@
                     @*<li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
                         </li>
@@ -71,27 +78,30 @@
     <script src="~/lib/calendar/js/fullcalendar.js"></script>
     <script src="~/lib/calendar/js/jquery-ui.custom.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/sign/signature_pad.min.js"></script>
 
     @*<script type="text/javascript">
-        function toggleCheckBox(status) {
-            $("#chkBoxChild").each(function () {
-                $(this).prop("checked", status);
-            });
-        }
+            function toggleCheckBox(status) {
+                $("#chkBoxChild").each(function () {
+                    $(this).prop("checked", status);
+                });
+            }
 
-        $(document).ready(function () {
-            var chkBoxMain = $("#chkBoxMain");
-            chkBoxMain.prop('checked', false);
+            $(document).ready(function () {
+                var chkBoxMain = $("#chkBoxMain");
+                chkBoxMain.prop('checked', false);
 
-            chkBoxMain.click(function () {
-                var status = chkBoxMain.prop('checked');
-                toggleCheckBox(status);
+                chkBoxMain.click(function () {
+                    var status = chkBoxMain.prop('checked');
+                    toggleCheckBox(status);
+                });
             });
-        });
-    </script>*@   
-    
-    <script type="text/javascript">
+        </script>*@
+
+    <script>
         $(document).ready(function () {
+
+            // For select/select all in table
             var getSelectedVendors = $("#getSelectedVendors");
             getSelectedVendors.click(function () {
                 var sel = $("input[type=checkbox]:checked").map(function (_, el) {
@@ -99,7 +109,34 @@
                 }).get();
                 $("#txtVendors").val(sel);
             });
-            
+
+            // For signature pad
+            var myDiv = document.getElementById("divSignaturePad");
+            var myCanvas = myDiv.querySelector("canvas");
+
+            var signaturePad1 = new SignaturePad(fitToDiv(myCanvas));
+            signaturePad1;
+
+            function fitToDiv(canvas) {
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                return canvas;
+            };
+
+            var resetSignature = $("#resetSignature");
+            resetSignature.click(function () {
+                signaturePad1.clear();
+            });
+
+            var acceptSignature = $("#acceptSignature");
+            acceptSignature.click(function () {
+                var data = signaturePad1.toDataURL();
+                alert(data);
+                $("#txtSignature").val(data);
+                signaturePad1.off;
+            });
         });
     </script>
 </body>

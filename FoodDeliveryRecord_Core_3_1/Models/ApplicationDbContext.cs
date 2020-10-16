@@ -22,7 +22,7 @@ namespace FoodDeliveryRecord_Core_3_1.Models
 
         public DbSet<Detail> Details { get; set; }
 
-        //public DbSet<Signature> Signatures { get; set; }
+        public DbSet<Signature> Signatures { get; set; }
 
     }
 }

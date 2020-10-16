@@ -32,12 +32,12 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
             RecordViewModel _recordViewModel = new RecordViewModel();
             _recordViewModel.Receivers = this._recordRepository.Receivers
                 .Include(vl => vl.VendorList)
-                //.Include(fc => fc.FoodCondition)
                 .Include(pc1 => pc1.FoodCondition.PackageCondition)
                 .Include(pc2 => pc2.FoodCondition.ProductCondition)
                 .Include(pt1 => pt1.FoodCondition.PackageTemperature)
                 .Include(pt2 => pt2.FoodCondition.ProductTemperature)
-                .Include(d => d.FoodCondition.Detail)
+                .Include(fcd => fcd.FoodCondition.Detail)
+                .Include(sig => sig.Signature)
                 .OrderBy(r => r.Id);
             _recordViewModel.Vendors = this._recordRepository.Vendors
                 .OrderBy(v => v.Id);
@@ -62,12 +62,12 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
                 ViewBag.Title = "Edit Record";
                 _recordViewModel.Receiver = this._recordRepository.Receivers
                     .Include(vl => vl.VendorList)
-                    //.Include(fc => fc.FoodCondition)
                     .Include(pc1 => pc1.FoodCondition.PackageCondition)
                     .Include(pc2 => pc2.FoodCondition.ProductCondition)
                     .Include(pt1 => pt1.FoodCondition.PackageTemperature)
                     .Include(pt2 => pt2.FoodCondition.ProductTemperature)
-                    .Include(d => d.FoodCondition.Detail)
+                    .Include(fcd => fcd.FoodCondition.Detail)
+                    .Include(sig => sig.Signature)
                     .FirstOrDefault(r => r.Id == _recordId);
                 _recordViewModel.Vendors = this._recordRepository.Vendors
                     .OrderBy(v => v.Id);
@@ -121,12 +121,12 @@ namespace FoodDeliveryRecord_Core_3_1.Controllers
 
                 _recordEntry.Receivers = this._recordRepository.Receivers
                     .Include(vl => vl.VendorList)
-                    //.Include(fc => fc.FoodCondition)
                     .Include(pc1 => pc1.FoodCondition.PackageCondition)
                     .Include(pc2 => pc2.FoodCondition.ProductCondition)
                     .Include(pt1 => pt1.FoodCondition.PackageTemperature)
                     .Include(pt2 => pt2.FoodCondition.ProductTemperature)
-                    .Include(d => d.FoodCondition.Detail)
+                    .Include(fcd => fcd.FoodCondition.Detail)
+                    .Include(sig => sig.Signature)
                     .OrderBy(item => item.Id);
                 _recordEntry.Vendors = this._recordRepository.Vendors
                     .OrderBy(v => v.Id);
