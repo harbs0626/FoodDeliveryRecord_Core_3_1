@@ -104,7 +104,7 @@
             // For select/select all in table
             var getSelectedVendors = $("#getSelectedVendors");
             getSelectedVendors.click(function () {
-                var sel = $("input[type=checkbox]:checked").map(function (_, el) {
+                var sel = $("#chkBoxVendorName:checked").map(function (_, el) {
                     return $(el).val();
                 }).get();
                 $("#txtVendors").val(sel);
@@ -112,31 +112,45 @@
 
             // For signature pad
             var myDiv = document.getElementById("divSignaturePad");
-            var myCanvas = myDiv.querySelector("canvas");
+            if (myDiv != null) {
+                var myCanvas = myDiv.querySelector("canvas");
 
-            var signaturePad1 = new SignaturePad(fitToDiv(myCanvas));
-            signaturePad1;
+                var signaturePad1 = new SignaturePad(fitToDiv(myCanvas));
+                signaturePad1;
 
-            function fitToDiv(canvas) {
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                canvas.width = canvas.offsetWidth;
-                canvas.height = canvas.offsetHeight;
-                return canvas;
-            };
+                function fitToDiv(canvas) {
+                    canvas.style.width = '100%';
+                    canvas.style.height = '100%';
+                    canvas.width = canvas.offsetWidth;
+                    canvas.height = canvas.offsetHeight;
+                    return canvas;
+                };
 
-            var resetSignature = $("#resetSignature");
-            resetSignature.click(function () {
-                signaturePad1.clear();
+                var resetSignature = $("#resetSignature");
+                resetSignature.click(function () {
+                    signaturePad1.clear();
+                });
+
+                var acceptSignature = $("#acceptSignature");
+                acceptSignature.click(function () {
+                    var data = signaturePad1.toDataURL();
+                    $("#txtSignature").val(data);
+                    signaturePad1.off;
+                });
+            }
+
+            var img = $("#imgData");
+            img.on("contextmenu", function (e) {
+                return false;
             });
 
-            var acceptSignature = $("#acceptSignature");
-            acceptSignature.click(function () {
-                var data = signaturePad1.toDataURL();
-                alert(data);
-                $("#txtSignature").val(data);
-                signaturePad1.off;
-            });
+            var txtSig = $("#txtSignature");
+            var txtDateVerified = $("#txtDateVerified");
+            if (txtSig.val() != "") {
+                txtDateVerified.attr("readOnly", "readOnly");
+            } else {
+                txtDateVerified.removeAttr("readOnly");
+            }
         });
     </script>
 </body>

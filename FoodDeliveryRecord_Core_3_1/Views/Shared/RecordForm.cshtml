@@ -243,20 +243,43 @@
                 </div>
                 <div class="col-md-12 form-group">
                     <label asp-for="Receiver.Signature.ManagerSignature">Verified By:</label>
-                    <div id="divSignaturePad">
-                        <canvas></canvas>
-                    </div>
+                    @{
+                        var managerSignature = Model.Receiver.Signature;
+                        bool viewButtons = true;
+                        if (managerSignature == null)
+                        {
+                            <div id="divSignaturePad">
+                                <canvas></canvas>
+                            </div>
+                        }
+                        else
+                        {
+                            var imageData = "data:image/png;base64," + managerSignature.ManagerSignature;
+                            <div id="divSignaturePad2">
+                                <img id="imgData" src="@imageData" alt="image not loaded" />
+                            </div>
+                            viewButtons = false;
+                        }
+                    }
+
                     <input id="txtSignature" type="hidden" asp-for="Receiver.Signature.ManagerSignature" />
                 </div>
-                <div class="col-md-4 form-group">
-                    <button id="acceptSignature" type="button" class="btn btn-outline-primary btn-block">Accept Signature</button>
-                </div>
-                <div class="col-md-4 form-group">
-                    <button id="resetSignature" type="button" class="btn btn-outline-secondary btn-block">Reset Signature</button>
-                </div>
+
+                @{
+                    if (viewButtons == true)
+                    {
+                        <div class="col-md-4 form-group">
+                            <button id="acceptSignature" type="button" class="btn btn-outline-primary btn-block">Accept Signature</button>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <button id="resetSignature" type="button" class="btn btn-outline-secondary btn-block">Reset Signature</button>
+                        </div>
+                    }
+                }
+
                 <div class="col-md-4 form-group">
                     <label asp-for="Receiver.Signature.DateVerified">Verified Date:</label>
-                    <input class="form-control" type="date" asp-for="Receiver.Signature.DateVerified" />
+                    <input id="txtDateVerified" class="form-control" type="date" asp-for="Receiver.Signature.DateVerified" />
                 </div>
 
             </div>
